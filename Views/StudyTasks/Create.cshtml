@@ -1,0 +1,63 @@
+@model StudyTask
+@{
+    ViewData["Title"] = "Gorev Ekle";
+}
+
+<section class="page-title">
+    <div>
+        <p class="eyebrow">Yeni plan</p>
+        <h1>Calisma Gorevi Ekle</h1>
+        <p class="text-muted mb-0">Bir ders icin calisilacak konuyu ve sureyi belirle.</p>
+    </div>
+</section>
+
+<section class="form-panel">
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CourseId" class="form-label"></label>
+            <select asp-for="CourseId" class="form-select" asp-items="ViewBag.CourseId"></select>
+            <span asp-validation-for="CourseId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="StudyDate" class="form-label"></label>
+                <input asp-for="StudyDate" class="form-control" />
+                <span asp-validation-for="StudyDate" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="DurationMinutes" class="form-label"></label>
+                <input asp-for="DurationMinutes" class="form-control" type="number" min="15" max="600" step="15" />
+                <span asp-validation-for="DurationMinutes" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-check mb-4">
+            <input asp-for="IsCompleted" class="form-check-input" />
+            <label asp-for="IsCompleted" class="form-check-label"></label>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Vazgec</a>
+        </div>
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,45 @@
+@model Course
+@{
+    ViewData["Title"] = "Ders Ekle";
+}
+
+<section class="page-title">
+    <div>
+        <p class="eyebrow">Yeni kayit</p>
+        <h1>Ders Ekle</h1>
+        <p class="text-muted mb-0">Calisma plani ve sinavlar bu derslere baglanir.</p>
+    </div>
+</section>
+
+<section class="form-panel">
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Instructor" class="form-label"></label>
+            <input asp-for="Instructor" class="form-control" />
+            <span asp-validation-for="Instructor" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Credit" class="form-label"></label>
+            <input asp-for="Credit" class="form-control" type="number" min="1" max="10" />
+            <span asp-validation-for="Credit" class="text-danger"></span>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Vazgec</a>
+        </div>
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

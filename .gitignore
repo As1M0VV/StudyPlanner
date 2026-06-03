@@ -1,0 +1,6 @@
+bin/
+obj/
+studyplanner.db
+*.db-shm
+*.db-wal
+.DS_Store

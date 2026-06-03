@@ -1,0 +1,115 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Anasayfa";
+    var completionRate = Model.TotalTasks == 0
+        ? 0
+        : (int)Math.Round(Model.CompletedTasks * 100.0 / Model.TotalTasks);
+    var totalHours = Math.Round(Model.TotalStudyMinutes / 60.0, 1);
+}
+
+<section class="page-title">
+    <div>
+        <p class="eyebrow">Ogrenci paneli</p>
+        <h1>Ders calisma ve sinav takip sistemi</h1>
+        <p class="text-muted mb-0">Derslerini, calisma gorevlerini ve yaklasan sinavlarini tek panelden takip et.</p>
+    </div>
+    <div class="title-actions">
+        <a class="btn btn-primary" asp-controller="StudyTasks" asp-action="Create">Yeni Gorev</a>
+        <a class="btn btn-outline-primary" asp-controller="Exams" asp-action="Create">Sinav Ekle</a>
+    </div>
+</section>
+
+<section class="metric-grid">
+    <article class="metric-card accent-blue">
+        <span>Ders</span>
+        <strong>@Model.TotalCourses</strong>
+        <small>Kayitli ders</small>
+    </article>
+    <article class="metric-card accent-orange">
+        <span>Gorev</span>
+        <strong>@Model.TotalTasks</strong>
+        <small>Toplam calisma gorevi</small>
+    </article>
+    <article class="metric-card accent-green">
+        <span>Tamamlanma</span>
+        <strong>%@completionRate</strong>
+        <small>@Model.CompletedTasks gorev tamamlandi</small>
+    </article>
+    <article class="metric-card accent-red">
+        <span>Sure</span>
+        <strong>@totalHours</strong>
+        <small>Tamamlanan calisma saati</small>
+    </article>
+</section>
+
+<section class="row g-4">
+    <div class="col-lg-6">
+        <div class="content-panel h-100">
+            <div class="panel-heading">
+                <div>
+                    <p class="eyebrow">Plan</p>
+                    <h2>Yaklasan calismalar</h2>
+                </div>
+                <a asp-controller="StudyTasks" asp-action="Index">Tumunu gor</a>
+            </div>
+
+            @if (Model.UpcomingTasks.Any())
+            {
+                <div class="stack-list">
+                    @foreach (var task in Model.UpcomingTasks)
+                    {
+                        <div class="stack-item">
+                            <div>
+                                <strong>@task.Title</strong>
+                                <span>@task.Course?.Name</span>
+                            </div>
+                            <div class="item-meta">
+                                <span>@task.StudyDate.ToString("dd.MM.yyyy")</span>
+                                <span>@task.DurationMinutes dk</span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="empty-state">Yaklasan acik calisma gorevi yok.</p>
+            }
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="content-panel h-100">
+            <div class="panel-heading">
+                <div>
+                    <p class="eyebrow">Takvim</p>
+                    <h2>Yaklasan sinavlar</h2>
+                </div>
+                <a asp-controller="Exams" asp-action="Index">Tumunu gor</a>
+            </div>
+
+            @if (Model.UpcomingExams.Any())
+            {
+                <div class="stack-list">
+                    @foreach (var exam in Model.UpcomingExams)
+                    {
+                        <div class="stack-item">
+                            <div>
+                                <strong>@exam.Title</strong>
+                                <span>@exam.Course?.Name</span>
+                            </div>
+                            <div class="item-meta">
+                                <span>@exam.ExamDate.ToString("dd.MM.yyyy")</span>
+                                <span>@((exam.ExamDate - DateTime.Today).Days) gun</span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="empty-state">Yaklasan sinav bulunmuyor.</p>
+            }
+        </div>
+    </div>
+</section>

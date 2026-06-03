@@ -1,0 +1,5 @@
+services:
+  - type: web
+    name: study-planner
+    runtime: docker
+    autoDeploy: true

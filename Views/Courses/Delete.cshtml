@@ -1,0 +1,27 @@
+@model Course
+@{
+    ViewData["Title"] = "Ders Sil";
+}
+
+<section class="page-title">
+    <div>
+        <p class="eyebrow">Onay</p>
+        <h1>Ders Sil</h1>
+        <p class="text-muted mb-0">Bu islem derse bagli calisma gorevlerini ve sinavlari da siler.</p>
+    </div>
+</section>
+
+<section class="form-panel">
+    <div class="delete-summary">
+        <strong>@Model.Name</strong>
+        <span>@Model.StudyTasks.Count calisma gorevi, @Model.Exams.Count sinav kaydi</span>
+    </div>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-actions">
+            <button type="submit" class="btn btn-danger">Sil</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Vazgec</a>
+        </div>
+    </form>
+</section>

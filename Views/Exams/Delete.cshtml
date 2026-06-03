@@ -1,0 +1,27 @@
+@model Exam
+@{
+    ViewData["Title"] = "Sinav Sil";
+}
+
+<section class="page-title">
+    <div>
+        <p class="eyebrow">Onay</p>
+        <h1>Sinav Sil</h1>
+        <p class="text-muted mb-0">Secilen sinav kaydini kalici olarak sil.</p>
+    </div>
+</section>
+
+<section class="form-panel">
+    <div class="delete-summary">
+        <strong>@Model.Title</strong>
+        <span>@Model.Course?.Name - @Model.ExamDate.ToString("dd.MM.yyyy")</span>
+    </div>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-actions">
+            <button type="submit" class="btn btn-danger">Sil</button>
+            <a class="btn btn-outline-secondary" asp-action="Index">Vazgec</a>
+        </div>
+    </form>
+</section>

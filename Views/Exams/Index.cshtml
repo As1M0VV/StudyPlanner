@@ -1,0 +1,79 @@
+@model IEnumerable<Exam>
+@{
+    ViewData["Title"] = "Sinavlar";
+    var query = ViewBag.Query as string ?? string.Empty;
+}
+
+<section class="page-title">
+    <div>
+        <p class="eyebrow">Takvim</p>
+        <h1>Sinavlar</h1>
+        <p class="text-muted mb-0">Sinav tarihlerini, konularini ve notlarini takip et.</p>
+    </div>
+    <div class="title-actions">
+        <a class="btn btn-primary" asp-action="Create">Sinav Ekle</a>
+    </div>
+</section>
+
+<section class="content-panel">
+    <form class="toolbar toolbar-grid" asp-action="Index" method="get">
+        <div>
+            <label class="form-label" for="examSearch">Sinav ara</label>
+            <input class="form-control" id="examSearch" type="search" name="q" value="@query" placeholder="Sinav, ders veya konu" />
+        </div>
+        <div class="toolbar-submit">
+            <button type="submit" class="btn btn-outline-primary">Ara</button>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table align-middle app-table" id="examsTable">
+            <thead>
+                <tr>
+                    <th>Sinav</th>
+                    <th>Ders</th>
+                    <th>Tarih</th>
+                    <th>Kalan</th>
+                    <th>Not</th>
+                    <th class="text-end">Islemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var exam in Model)
+                {
+                    var daysLeft = (exam.ExamDate.Date - DateTime.Today).Days;
+                    <tr>
+                        <td>
+                            <strong>@exam.Title</strong>
+                            @if (!string.IsNullOrWhiteSpace(exam.Topics))
+                            {
+                                <span class="table-subtext">@exam.Topics</span>
+                            }
+                        </td>
+                        <td>@exam.Course?.Name</td>
+                        <td>@exam.ExamDate.ToString("dd.MM.yyyy")</td>
+                        <td>
+                            @if (daysLeft > 0)
+                            {
+                                <span class="badge text-bg-info">@daysLeft gun</span>
+                            }
+                            else if (daysLeft == 0)
+                            {
+                                <span class="badge text-bg-warning">Bugun</span>
+                            }
+                            else
+                            {
+                                <span class="badge text-bg-secondary">Gecti</span>
+                            }
+                        </td>
+                        <td>@(exam.Grade.HasValue ? exam.Grade.Value.ToString("0.##") : "-")</td>
+                        <td class="text-end table-actions">
+                            <a class="btn btn-sm btn-outline-primary" asp-action="Edit" asp-route-id="@exam.Id">Duzenle</a>
+                            <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@exam.Id">Sil</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
